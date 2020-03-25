@@ -1,0 +1,80 @@
+Sistema de Tickets para Uso de Autobuses en ITLA
+
+Stakeholders
+    Estudiantes
+    Choferes
+    Cajeros
+    Administradores
+
+Casos de Uso
+    Generar Ticket Pasos
+        Se introducen los datos del ticket
+        Se genera un hash usando la FORMULA
+        Se agrega al ticket el hash generado
+        Se imprime en pantalla la informacion del ticket
+    Generar Ticket Preguntas
+        Que informacion hay en un ticket ?
+            Fecha de creacion
+            Nombre de la entidad que emite el ticket
+            Numero de identificacion de quien obtendra el ticket
+            Nombre de quien obtendra el ticket
+            Codigo de ticket
+            Codigo de confirmacion de un ticket
+            Ruta de viaje
+            Fecha de viaje
+            Hora de viaje
+            Tipo de viaje si es de entrada o de salida de la organizacion
+            Sello y firma de la entidad que emite el ticket
+
+            Fecha de creacion
+            Nombre de la entidad que emite el ticket
+                Numero de identificacion de quien obtendra el ticket
+                Nombre de quien obtendra el ticket
+            Codigo de ticket
+                Ruta de viaje
+                Fecha de viaje
+                Hora de viaje
+                Tipo de viaje si es de entrada o de salida de la organizacion
+            Sello y firma de la entidad que emite el ticket
+        Que informacion realmente es la que se usa actualmente ?
+
+        Que informacion en dicho ticket es obligatoria o requerida ?
+        Que debe hacer el sistema si no encuentra la informacion requerida en un ticket ?    
+
+
+    Validar Ticket
+        Validar que el ticket solo se use una sola vez
+            Se determina si el ticket a validar no existe en historico de tickets ya escaneados anteriormente
+        Validar que el ticket sea usado en la fecha y el horario que le corresponda
+            Se compara la fecha y hora del ticket con la fecha y hora indicada en el validador
+        Validar que el ticket se genero por una fuente autorizada (evitar que se puedan inventar por terceros)
+            Se genera un hash usando la FORMULA y se compara con el hash que tiene el ticket
+            FORMULA = MobileAppToken + [UserDefinedToken] + data
+            En caso de usar el UserDefinedToken, se necesitara compartir dicho token con el que se encargara de validar los tickets.
+    
+
+
+
+Automatizaciones
+    Leer un codigo QR que autocomplete los campos a validar por el validador
+
+
+Extras
+    Que se pueda comprar creditos
+    Que se pueda generar tickets basado en creditos
+    Que se pueda generar mas tickets de los que existan como [asientos] disponibles en el [autobus]
+        Solo dichos tickets que fueron vendidos despues de superar los espacios disponibles podran ser canjeados por creditos
+            Se podra vender de mas en caso de que a ultima hora se cancelen tickets
+    Que se pueda cancelar tickets        
+    Multiidiomas
+    Que se pueda generar una cantidad X de tickets a partir de una fecha
+        Que se pueda configurar los dias en los que se generara tickets a partir de la fecha indicada (ej: solo lunes, miercoles y viernes)
+    Que se pueda generar tickets para varias fechas
+    Calculadora de tickets
+        Que a partir de un monto se pueda ver cuantos viajes se pueden hacer y cuanto le queda como devuelta.
+    Poder visualizar el costo por ticket
+    Valida que no esta cancelado
+        Se compara con los registros del validador
+            Quien valida obtiene una lista de tickets cancelados desde la caja
+    Emitir un sonido al pasar las validaciones correctamente el ticket
+    Emitir un sonido al no pasar las validaciones correctamente el ticket   
