@@ -5,6 +5,7 @@ import 'package:bus_ticket_app/src/ticket_has_not_been_used_validator.dart';
 import 'package:bus_ticket_app/src/ticket_holder.dart';
 import 'package:bus_ticket_app/src/ticket_matches_with_data_expected_validator.dart';
 import 'package:bus_ticket_app/src/ticket_provider.dart';
+import 'package:bus_ticket_app/src/token_builder.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -36,6 +37,7 @@ void main() {
      * Arrange
      */
       final t1 = Ticket();
+      t1.token = TicketTokenBuilder(t1).build();
       final validator = TicketGeneratedFromMobileAppValidator(t1);
 
       /**
@@ -48,15 +50,12 @@ void main() {
       expect(validator.valid(), true);
     });
 
-    test(
-        'Ticket has not been used and with generated-token using secret-token-builder must pass validation',
-        () {
+    test('Using an unused Ticket must pass validation', () {
       /**
      * Arrange
      */
       final t1 = Ticket();
-      IValidatable validator = TicketHasNotBeenUsedValidator(t1, [],
-          validator: TicketGeneratedFromMobileAppValidator(t1));
+      IValidatable validator = TicketHasNotBeenUsedValidator(t1, []);
 
       /**
      * Act
@@ -68,15 +67,12 @@ void main() {
       expect(validator.valid(), true);
     });
 
-    test(
-        'Ticket has been used and with generated-token using secret-token-builder must fail validation',
-        () {
+    test('Using an already used ticket must fail validation', () {
       /**
      * Arrange
      */
       final t1 = Ticket();
-      IValidatable validator = TicketHasNotBeenUsedValidator(t1, [t1],
-          validator: TicketGeneratedFromMobileAppValidator(t1));
+      IValidatable validator = TicketHasNotBeenUsedValidator(t1, [t1]);
 
       /**
      * Act
@@ -95,9 +91,9 @@ void main() {
       final faker = Faker();
       final selectedDate = faker.date.dateTime();
       final ticketId = faker.guid.guid();
-      final holderId = faker.randomGenerator.integer(99999);
+      final holderId = faker.guid.guid();
       final holderName = faker.person.name();
-      final providerId = faker.randomGenerator.integer(99999);
+      final providerId = faker.guid.guid();
       final providerName = faker.person.name();
 
       Ticket t1 = Ticket(
@@ -138,16 +134,13 @@ void main() {
         /**
         * Arrange
         */
-        /**
-        * Arrange
-        */
         final faker = Faker();
         final selectedDateT1 = faker.date.dateTime();
         final selectedDateT2 = faker.date.dateTime();
         final ticketId = faker.guid.guid();
-        final holderId = faker.randomGenerator.integer(99999);
+        final holderId = faker.guid.guid();
         final holderName = faker.person.name();
-        final providerId = faker.randomGenerator.integer(99999);
+        final providerId = faker.guid.guid();
         final providerName = faker.person.name();
 
         Ticket t1 = Ticket(
@@ -180,10 +173,6 @@ void main() {
        */
         expect(result, false);
       });
-
-      test(
-          'Ticket used in a different programed route to the selected one must not pass validation',
-          () {});
     });
   });
 }
